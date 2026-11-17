@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173b35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Leonardo Sportiello">
+  <meta name="description" content="Piano alimentare Leonardo Sportiello: pasti, macro, spesa e allenamento.">
+  <title>Piano alimentare Leonardo Sportiello</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/icon-180.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead">
+      <div class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M6 20L13 12l5 5 8-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 7h5v5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-copy">
+        <div class="brand-over">PIANO ALIMENTARE</div>
+        <div class="brand-name">LEONARDO SPORTIELLO</div>
+      </div>
+      <button id="about-button" class="circle-button" aria-label="Informazioni">i</button>
+    </header>
+
+    <main id="view-plan" class="view">
+      <section class="hero">
+        <div class="eyebrow light"><span class="dot"></span><span id="hero-subtitle">Oggi</span></div>
+        <h1 id="day-title">Lunedì</h1>
+        <p>Traccia ogni alimento mangiato, controlla calorie e macro in tempo reale e tieni tutto salvato sul dispositivo.</p>
+        <div class="hero-stats">
+          <div><span class="hero-big" id="cal-target">2500 kcal</span><span class="hero-label">target</span></div>
+          <div><span class="hero-big" id="cal-planned">0 kcal</span><span class="hero-label">pianificate</span></div>
+          <div><span class="hero-big" id="cal-consumed">0 kcal</span><span class="hero-label">mangiate</span></div>
+          <div><span class="hero-big" id="cal-remaining">0 kcal</span><span class="hero-label" id="cal-remaining-label">ancora disponibili</span></div>
+        </div>
+      </section>
+
+      <section class="section-card compact">
+        <div class="section-head"><div><div class="eyebrow">SETTIMANA</div><h2>Scegli il giorno</h2></div><button id="today-button" class="ghost-button small">Vai a oggi</button></div>
+        <div id="day-selector" class="day-strip"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head"><div><div class="eyebrow">TRACKING GIORNALIERO</div><h2>Calorie e macro</h2></div><button id="reset-day" class="ghost-button small">Reset giorno</button></div>
+        <div id="macro-grid" class="macro-grid"></div>
+        <div class="adherence-row"><span id="daily-adherence">Aderenza del giorno: 0%</span><span id="planned-note">Pianificato con le scelte attuali</span></div>
+        <div class="weekly-title">Andamento delle spunte nella settimana</div>
+        <div id="weekly-progress" class="weekly-progress" aria-label="Avanzamento settimanale"></div>
+      </section>
+
+      <section class="share-section section-card">
+        <div class="section-head"><div><div class="eyebrow">CONDIVISIONE</div><h2>La tua giornata, in un'immagine</h2></div><div class="pill">1080 × 1920</div></div>
+        <p class="section-lead">Crea una scheda verticale con pasti, alimenti spuntati, calorie e macro. Su iPhone scegli WhatsApp dal menu Condividi, oppure salva il PNG.</p>
+        <div class="share-actions"><button id="share-day-image" class="secondary-button" type="button">Condividi immagine</button><button id="save-day-image" class="ghost-button" type="button">Salva PNG</button></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head"><div><div class="eyebrow">PASTI</div><h2>Le tue opzioni</h2></div><div class="pill">5 scelte per ogni pasto</div></div>
+        <p class="section-lead">I pasti restano compatti: apri la tendina solo quando vuoi segnare gli alimenti. Le tue scelte rimangono salvate.</p>
+        <div class="accordion-toolbar"><button id="open-all-meals" class="ghost-button small" type="button">Apri tutti</button><button id="close-all-meals" class="ghost-button small" type="button">Chiudi tutti</button></div>
+        <div id="meal-list" class="meal-list"></div>
+      </section>
+
+      <section class="two-col">
+        <section class="section-card lifestyle">
+          <div class="section-head"><div><div class="eyebrow">ABITUDINI</div><h2>Acqua</h2></div><div id="water-label" class="pill">0/8</div></div>
+          <div id="water-grid" class="water-grid"></div>
+        </section>
+        <section class="section-card lifestyle">
+          <div class="section-head"><div><div class="eyebrow">NOTE</div><h2>Appunti del giorno</h2></div></div>
+          <textarea id="daily-notes" class="notes-box" placeholder="Esempio: allenamento ok, fame bassa, giornata stressante..."></textarea>
+        </section>
+      </section>
+
+      <section class="section-card backup-section">
+        <div class="section-head"><div><div class="eyebrow">SALVATAGGIO DATI</div><h2>Backup personale</h2></div></div>
+        <p class="section-lead">Le spunte rimangono nel browser di questo iPhone. Esporta un file di backup per conservarle e poterle ripristinare se cambi dispositivo o cancelli i dati del sito.</p>
+        <div class="backup-actions"><button id="export-backup" class="secondary-button" type="button">Esporta backup</button><button id="import-backup" class="ghost-button" type="button">Importa backup</button></div>
+        <input type="file" id="backup-file" accept=".json,application/json" hidden>
+      </section>
+      <section class="footnote"><span>ⓘ</span><div>Valori nutrizionali approssimativi, utili per organizzarti e monitorare l’aderenza. Le grammature di pasta, riso, cereali e carne sono da intendersi a crudo. Preferire prodotti senza lattosio secondo tolleranza.</div></section>
+    </main>
+
+    <main id="view-training" class="view" hidden>
+      <section class="hero dark hero-training">
+        <div class="eyebrow light"><span class="dot"></span>SCHEDA ALLENAMENTO</div>
+        <h1 id="training-title">Giorno 1</h1>
+        <p id="training-meta">4 allenamenti · recuperi e note salvate sul dispositivo</p>
+        <div class="hero-training-actions"><button id="mark-workout-done" class="primary-inline">Segna tutto fatto</button><button id="reset-workout" class="ghost-button light">Reset</button></div>
+      </section>
+      <section class="section-card compact">
+        <div class="section-head"><div><div class="eyebrow">GIORNI</div><h2>Seleziona l’allenamento</h2></div><div class="pill">Macchine Panatta</div></div>
+        <div id="workout-selector" class="workout-strip"></div>
+      </section>
+      <section class="section-card">
+        <div class="section-head"><div><div class="eyebrow">ESERCIZI</div><h2>Scheda dettagliata</h2></div></div>
+        <div id="training-cards" class="training-cards"></div>
+      </section>
+      <section class="section-card compact">
+        <div class="section-head"><div><div class="eyebrow">NOTE</div><h2>Addome e appunti</h2></div></div>
+        <div id="core-note" class="core-note"></div>
+        <textarea id="training-notes" class="notes-box" placeholder="Carichi percepiti, note, fastidi, progressi..."></textarea>
+      </section>
+    </main>
+
+    <main id="view-shop" class="view" hidden>
+      <section class="hero dark">
+        <div class="eyebrow light"><span class="dot"></span>LISTA DELLA SPESA</div>
+        <h1>Organizzata e interattiva</h1>
+        <p>Tutto deriva dalle tue scelte della settimana. Spunta i prodotti acquistati e salva “spesa fatta”.</p>
+        <div class="shop-summary"><div><strong id="shop-checked">0</strong><span>acquistati</span></div><div><strong id="shop-total">0</strong><span>totali</span></div></div>
+        <div class="progress-track"><div id="shop-progress-fill" class="progress-fill"></div></div>
+        <div id="shop-message" class="shop-message">La lista riflette tutte le scelte della settimana.</div>
+      </section>
+      <section id="shop-sections" class="shopping-sections"></section>
+      <section class="shop-actions"><button id="done-shopping" class="primary-button">Spesa fatta</button><button id="clear-shopping" class="ghost-button">Azzera spunte</button></section>
+      <section class="footnote"><span>ⓘ</span><div>Le quantità sono stime orientative sommate su 7 giorni. Le spunte e lo stato della spesa restano salvati sul dispositivo.</div></section>
+    </main>
+
+    <main id="view-coach" class="view" hidden>
+      <section class="hero dark coach-hero"><div class="eyebrow light"><span class="dot"></span>CHIEDI AL COACH</div><h1>Un dubbio sul piano?</h1><p>Prepara una domanda usando i dati della giornata, poi apri questa conversazione ChatGPT per inviarla.</p></section>
+      <section class="section-card">
+        <div class="section-head"><div><div class="eyebrow">PASSO 1</div><h2>Cosa vuoi chiedere?</h2></div></div>
+        <label class="field-label" for="coach-day">Giornata</label><select id="coach-day" class="coach-field"></select>
+        <label class="field-label" for="coach-meal">Pasto interessato</label><select id="coach-meal" class="coach-field"></select>
+        <div class="coach-quick-grid">
+          <button type="button" data-coach-preset="swap" class="coach-preset active">Trova un'alternativa</button>
+          <button type="button" data-coach-preset="balance" class="coach-preset">Bilancia la giornata</button>
+          <button type="button" data-coach-preset="check" class="coach-preset">Valuta i progressi</button>
+        </div>
+        <label class="field-label" for="coach-question">Domanda aggiuntiva (facoltativa)</label>
+        <textarea id="coach-question" class="notes-box" rows="3" placeholder="Es.: oggi non ho il pollo, ma ho delle uova e del pane..."></textarea>
+        <div class="coach-preview-label">Messaggio pronto da copiare</div>
+        <textarea id="coach-preview" class="notes-box coach-preview" readonly rows="9" aria-label="Anteprima della richiesta al coach"></textarea>
+        <div class="coach-action-row"><button id="coach-copy" type="button" class="ghost-button">Copia richiesta</button><button id="coach-open" type="button" class="primary-button">Copia e apri ChatGPT</button></div>
+      </section>
+      <section class="section-card">
+        <div class="section-head"><div><div class="eyebrow">PASSO 2</div><h2>Collega questa conversazione</h2></div></div>
+        <p class="section-lead">In Safari apri questa chat, copia l'indirizzo privato dalla barra URL e incollalo qui. Non usare il pulsante pubblico “Condividi conversazione”. Non inviamo né leggiamo dati in automatico.</p>
+        <label class="field-label" for="chat-url">Indirizzo privato della chat</label>
+        <input id="chat-url" class="coach-field" inputmode="url" type="url" placeholder="https://chatgpt.com/c/..." autocomplete="off" spellcheck="false">
+        <div class="coach-action-row"><button id="save-chat-url" type="button" class="secondary-button">Salva collegamento</button><button id="clear-chat-url" type="button" class="ghost-button">Rimuovi</button></div>
+        <p id="chat-link-status" class="field-hint">Senza collegamento, si aprirà la schermata iniziale di ChatGPT.</p>
+      </section>
+      <section class="footnote"><span>ⓘ</span><div>Questo è un collegamento manuale, non un chatbot integrato: GymPilot copia un messaggio e apre ChatGPT, ma non può scrivere o leggere automaticamente questa conversazione. Per inviare la domanda devi incollarla e premere Invia. Le informazioni sanitarie rimangono fuori dal messaggio automatico.</div></section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigazione principale">
+      <button class="nav-item active" data-view="plan"><span>🍽️</span><span>Piano</span></button>
+      <button class="nav-item" data-view="training"><span>🏋️</span><span>Allenamento</span></button>
+      <button class="nav-item" data-view="shop"><span>🛒</span><span>Spesa</span></button>
+      <button class="nav-item" data-view="coach"><span>💬</span><span>Coach</span></button>
+    </nav>
+  </div>
+
+  <div id="modal-backdrop" class="modal-backdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="modal-close" class="modal-close" aria-label="Chiudi">×</button>
+      <div id="modal-icon" class="modal-icon">✓</div>
+      <h2 id="modal-title"></h2>
+      <p id="modal-message"></p>
+      <div id="modal-actions" class="modal-actions"></div>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./data.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
