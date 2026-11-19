@@ -1,7 +1,7 @@
 {
   "name": "Piano alimentare Leonardo Sportiello",
   "short_name": "Leonardo Food",
-  "description": "Piano alimentare con tendine, macro, spesa, allenamento e backup.",
+  "description": "Piano alimentare, diario libero con catalogo di alimenti, calendario allenamenti, macro e spesa.",
   "lang": "it-IT",
   "start_url": "./index.html",
   "scope": "./",

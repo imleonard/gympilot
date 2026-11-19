@@ -40,7 +40,7 @@
 
       <section class="section-card compact">
         <div class="section-head"><div><div class="eyebrow">SETTIMANA</div><h2>Scegli il giorno</h2></div><button id="today-button" class="ghost-button small">Vai a oggi</button></div>
-        <div id="day-selector" class="day-strip"></div>
+        <div class="week-nav"><button type="button" id="prev-plan-week" aria-label="Settimana precedente">‹</button><strong id="plan-week-label">Settimana attuale</strong><button type="button" id="next-plan-week" aria-label="Settimana successiva">›</button></div><div id="day-selector" class="day-strip"></div>
       </section>
 
       <section class="section-card">
@@ -55,6 +55,12 @@
         <div class="section-head"><div><div class="eyebrow">CONDIVISIONE</div><h2>La tua giornata, in un'immagine</h2></div><div class="pill">1080 × 1920</div></div>
         <p class="section-lead">Crea una scheda verticale con pasti, alimenti spuntati, calorie e macro. Su iPhone scegli WhatsApp dal menu Condividi, oppure salva il PNG.</p>
         <div class="share-actions"><button id="share-day-image" class="secondary-button" type="button">Condividi immagine</button><button id="save-day-image" class="ghost-button" type="button">Salva PNG</button></div>
+      </section>
+
+      <section class="section-card quick-log-section">
+        <div class="section-head"><div><div class="eyebrow">DIARIO LIBERO</div><h2>Cosa hai mangiato davvero?</h2></div><div class="pill">Ricerca alimenti</div></div>
+        <p class="section-lead">Non sei obbligato a scegliere il menu previsto. Scegli a quale pasto aggiungere un alimento, cercalo e indica la quantità effettiva.</p>
+        <div class="quick-log-actions" id="quick-log-actions"></div>
       </section>
 
       <section class="section-card">
@@ -94,6 +100,11 @@
       <section class="section-card compact">
         <div class="section-head"><div><div class="eyebrow">GIORNI</div><h2>Seleziona l’allenamento</h2></div><div class="pill">Macchine Panatta</div></div>
         <div id="workout-selector" class="workout-strip"></div>
+        <section class="workout-calendar-section" aria-label="Calendario allenamenti"><div class="calendar-head"><div><div class="eyebrow">DIARIO ALLENAMENTI</div><h3>Quando ti sei allenato?</h3></div></div>
+          <div class="week-nav"><button type="button" id="prev-workout-week" aria-label="Settimana precedente">‹</button><strong id="workout-calendar-period">Settimana</strong><button type="button" id="next-workout-week" aria-label="Settimana successiva">›</button></div>
+          <div id="workout-calendar" class="workout-calendar"></div><p id="workout-weekly-summary" class="calendar-summary"></p>
+          <p class="subtle-help">Tocca una data per spuntarla. Il giorno della scheda selezionato viene associato alla data; le spunte sono indipendenti dagli esercizi.</p>
+        </section>
       </section>
       <section class="section-card">
         <div class="section-head"><div><div class="eyebrow">ESERCIZI</div><h2>Scheda dettagliata</h2></div></div>
@@ -156,6 +167,32 @@
     </nav>
   </div>
 
+  <div id="food-finder" class="finder-backdrop" hidden>
+    <section class="finder-sheet" role="dialog" aria-modal="true" aria-labelledby="food-finder-title">
+      <div class="finder-header"><div><div class="eyebrow">DIARIO ALIMENTARE LIBERO</div><h2 id="food-finder-title">Aggiungi quello che hai mangiato</h2><p id="finder-context"></p></div><button type="button" id="food-finder-close" class="circle-button" aria-label="Chiudi">×</button></div>
+      <label class="field-label" for="food-search">Cerca un alimento</label>
+      <div class="finder-search-row"><input type="search" id="food-search" class="coach-field" placeholder="Es. cappuccino, cornetto ischitano, pasta…" autocomplete="off" spellcheck="false"><button id="online-food-search" class="secondary-button" type="button">Cerca online</button></div>
+      <p id="finder-status" class="finder-status" role="status">Digita un alimento.</p>
+      <div id="finder-results" class="finder-results"></div>
+      <section id="finder-selection" class="finder-selection" hidden>
+        <div class="finder-picked-head"><strong id="selected-food-title"></strong><small id="selected-food-source"></small></div>
+        <label class="field-label" for="selected-food-qty">Quantità che hai consumato</label>
+        <div class="finder-qty-row"><input type="number" min="0.1" max="5000" step="1" id="selected-food-qty" class="coach-field" value="100"><span id="selected-food-unit">g</span></div>
+        <div class="meal-summary" id="selected-food-macros"></div><button type="button" id="add-selected-food" class="primary-button">Aggiungi al diario</button>
+      </section>
+      <button type="button" id="show-manual-food" class="ghost-button finder-manual-toggle">+ Il cibo non c'è? Crea un alimento</button>
+      <section id="finder-manual" class="finder-manual" hidden>
+        <h3>Nuovo alimento personalizzato</h3><p class="subtle-help">Inserisci i valori dell'etichetta o della tua stima. Viene conservato tra i preferiti locali.</p>
+        <label class="field-label" for="manual-food-name">Nome</label><input id="manual-food-name" class="coach-field" placeholder="Es. cornetto del mio bar" maxlength="150">
+        <div class="finder-manual-grid"><label>Unità e valori<select id="manual-food-unit" class="coach-field"><option value="g">per 100 g</option><option value="ml">per 100 ml</option><option value="pz">per pezzo</option></select></label><label>Quantità mangiata<input id="manual-food-qty" type="number" min="0.1" max="5000" value="100" step="1" class="coach-field"></label></div>
+        <p id="manual-food-label" class="subtle-help">per 100 g</p>
+        <div class="finder-manual-grid four"><label>Kcal<input type="number" id="manual-kcal" min="0" step="any" class="coach-field"></label><label>Proteine<input type="number" id="manual-p" min="0" step="any" class="coach-field"></label><label>Carboidrati<input type="number" id="manual-c" min="0" step="any" class="coach-field"></label><label>Grassi<input type="number" id="manual-f" min="0" step="any" class="coach-field"></label></div>
+        <button type="button" id="save-manual-food" class="primary-button">Salva e registra</button>
+      </section>
+      <p class="finder-credit">Catalogo online: <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener">Open Food Facts</a> (ODbL, attribuzione). I dati sono forniti dalla comunità e possono essere incompleti o inesatti. Il catalogo offline contiene stime generiche.</p>
+    </section>
+  </div>
+
   <div id="modal-backdrop" class="modal-backdrop" hidden>
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button id="modal-close" class="modal-close" aria-label="Chiudi">×</button>
@@ -168,6 +205,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="./data.js" defer></script>
+  <script src="./catalog.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>

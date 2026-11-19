@@ -1,10 +1,11 @@
-const CACHE_NAME = 'gympilot-leonardo-v2-3-20261117';
+const CACHE_NAME = 'gympilot-leonardo-v3-0-20261118';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
   './data.js',
+  './catalog.js',
   './manifest.webmanifest',
   './assets/icon-180.png',
   './assets/icon-192.png',
