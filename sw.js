@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gympilot-leonardo-v3-0-20261118';
+const CACHE_NAME = 'gympilot-leonardo-v3-1-20261119';
 const ASSETS = [
   './',
   './index.html',
